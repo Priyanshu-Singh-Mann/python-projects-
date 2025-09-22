@@ -1,0 +1,57 @@
+import random  # To pick a random word
+
+# --- Word list ---
+words = ["cat", "dog", "apple", "pen", "lion"]
+
+# --- Pick a random word ---
+secret_word = random.choice(words)
+
+# --- Game variables ---
+guessed_letters = []  # Store letters the player guesses
+attempts = 6  # Number of wrong guesses allowed
+
+print("Welcome to the Word Guessing Game!")
+print("The word has", len(secret_word), "letters.")
+
+# --- Main game loop ---
+while attempts > 0:
+    # Show the word with underscores for letters not guessed yet
+    display = ""
+    for letter in secret_word:
+        if letter in guessed_letters:
+            display += letter
+        else:
+            display += "_"
+    print("Word:", " ".join(display))
+
+    # Check if the player has guessed the word
+    if display == secret_word:
+        print("Congratulations! You guessed the word:", secret_word)
+        break
+
+    # Ask for a letter
+    guess = input("Guess a letter: ").lower()
+
+    # Validate input
+    if len(guess) != 1 or not guess.isalpha():
+        print("Please enter only one letter.")
+        continue
+
+    # If already guessed
+    if guess in guessed_letters:
+        print("You already guessed that letter.")
+        continue
+
+    # Add guess to guessed letters
+    guessed_letters.append(guess)
+
+    # Check if guess is correct
+    if guess in secret_word:
+        print("Good guess!")
+    else:
+        attempts -= 1
+        print("Wrong! Attempts left:", attempts)
+
+# --- Game over if attempts run out ---
+if attempts == 0:
+    print("Game Over! The word was:", secret_word)
